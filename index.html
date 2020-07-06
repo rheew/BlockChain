@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="./js/coinstack-1.1.19.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js "></script>
+<script type="text/javascript" src="./js/qrcode.js"></script>
 
 <!-- bootsrtap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -21,6 +22,25 @@ $(document).ready(function(){
     console.log('starting...');
   }
 
+  let qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 250,
+	height : 250
+  });
+  
+
+  function makeCode () {		
+	let elText = document.getElementById("fromaddress");
+	
+	if (!elText.value) {
+		alert("Input a text");
+		elText.focus();
+		return;
+	}
+	qrcode.makeCode(elText.value);
+  }
+
+  
+  
   $('#sendCoin').on('click', function(){
 
      let fromaddress = $("#fromaddress").val();
@@ -87,6 +107,11 @@ $(document).ready(function(){
         // $("#fromaddress").val( "new value here" );
     // <h5>송신처  <input id="fromaddress" size="45" placeholder=""></input> </h5>
   })
+
+  $('#qrcodeBtn').on('click', function(){
+    makeCode();
+    console.log('qrcode 생성완료');
+  })
 })
 </script>
 </head>
@@ -100,10 +125,13 @@ $(document).ready(function(){
     <button id="newAccount">New Account</button>
     <button id="getBalance">Get Balance</button>
     <button id="sendCoin">Send Coin</button>
-    <h5>송신처  <input id="fromaddress" size="45" value="" placeholder=""></input> </h5>
+    <button id="qrcodeBtn"> Create QRCode </button>
+      
+    <h5>송신처  <input id="fromaddress" size="45" value="1Pfm3p7rnPtETE6gtCPqJ9QWfmexZTauAp" placeholder=""></input> </h5>
     <h5>수신처  <input id="toaddress" size="45" placeholder=""></input> </h5>
     <h5>코인  <input id="setcoin" size="45" placeholder=""></input> </h5>
     <h5>비밀번호 <input type="password" id="addresspw" size="45" placeholder=""></input> </h5>
+    <div id="qrcode" style="width:250px; height:250px; margin-top:15px;"></div>
   </div>
   <br>
   <br>
